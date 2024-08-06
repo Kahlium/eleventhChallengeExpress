@@ -32,5 +32,15 @@ notes.post('/', (req, res) => {
     }
 });
 
+notes.delete('/:id', (req, res) => {
+    const deletedId = req.params.id;
+    readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+        // Filters out the one id we want to delete
+        const result = json.filter((note) => note.id !== deletedId);
+        writeToFile('./db/db.json', result);
+    })
+})
 
 module.exports = notes;
